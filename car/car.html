@@ -31,11 +31,20 @@
       }
       
       function left() {
-        grad -= (izmgrad*Math.log(Math.abs(speed)+1))/2;
-        
+        if (speed > 0){
+          grad -= (izmgrad*Math.log(Math.abs(speed)+1))/2;
+        }
+        if (speed < 0) {
+          grad += (izmgrad*Math.log(Math.abs(speed)+1))/2;
+        }
       }
       function right() {
-        grad += (izmgrad*Math.log(Math.abs(speed)+1))/2;
+        if (speed > 0) {
+          grad += (izmgrad*Math.log(Math.abs(speed)+1))/2;
+        }
+        if (speed < 0) {
+          grad -= (izmgrad*Math.log(Math.abs(speed)+1))/2;
+        }
         
       }
       function obroboka() {
