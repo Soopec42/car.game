@@ -7,7 +7,7 @@
   </head>
   <body  background="1674352561_gas-kvas-com-p-3d-risunok-doroga-22.jpg">
 
-    <img src="54-545722_image-result-for-png-car-top-view-lamborghini (1).png"  height ="200" id="limage" alt = "popa">
+    <img src="54-545722_image-result-for-png-car-top-view-lamborghini (1).png"  height ="100" id="limage" alt = "popa">
 
 
   
@@ -19,8 +19,10 @@
       var a = 0.1;
       var izmgrad = 3;
       var grad = 0;
-      var carrentkey = [0,0,0,0];
+      var carrentkey = [0,0,0,0,0];
       var speed = 0;
+      var newgrad = 0;
+      var dopgrad = 0;
       var image = document.getElementById('limage');
       
 
@@ -45,7 +47,29 @@
         if (speed < 0) {
           grad -= (izmgrad*Math.log(Math.abs(speed)+1))/2;
         }
-        
+      }
+      function drift() {
+        speed /= 1.005;
+        dopgrad += 1.5;
+          
+          if (carrentkey[2] == 1 && carrentkey[3] == 0) {
+            newgrad -= Math.log((Math.abs(dopgrad)+1.1)/5);
+          }
+          if (carrentkey[2] == 0 && carrentkey[3] == 1) {
+            newgrad += Math.log((Math.abs(dopgrad)+1.1)/5);
+          }
+          if (newgrad > 70) {
+            newgrad = 70;
+          }
+          if (newgrad < -70) {
+            newgrad = -70;
+          }
+          if (carrentkey[2] == 1 && newgrad > 0) {
+            newgrad += Math.log((Math.abs(dopgrad)+1.1)/15);
+          }
+          if (carrentkey[3] == 1 && newgrad < 0) {
+            newgrad -= Math.log((Math.abs(dopgrad)+1.1)/15);
+          }
       }
       function obroboka() {
         if (speed>0 && speed < 10) {
@@ -77,6 +101,12 @@
         if (carrentkey[3] == 1 && (speed <= -0.6 || speed >=0.6)) {
             right();
         }
+        if (newgrad > 0) {
+            newgrad -= Math.log((Math.abs(dopgrad)+1)/10);
+        }
+        if (newgrad < 0) {
+            newgrad += Math.log((Math.abs(dopgrad)+1)/10);
+        }
         if (speed != 0 && carrentkey[0] == 0 && carrentkey[1] == 0) {
           if (speed > 0) {
             speed -= 0.2;
@@ -89,6 +119,9 @@
           speed = 0;
         }
           up();
+        if (carrentkey[4] == 1) {
+          drift();
+        }
           polojenie();
 
       }
@@ -106,7 +139,9 @@
        if (event.key == "d") {
           carrentkey[3] = 1;
       }
-      
+       if (event.keyCode == 32) {
+          carrentkey[4] = 1;
+      }
 
       })
       document.addEventListener('keyup', function(event){
@@ -122,14 +157,18 @@
        if (event.key == "d") {
           carrentkey[3] = 0;
       }
+       if (event.keyCode == 32) {
+          carrentkey[4] = 0;
+      }
       
       })
       function polojenie() {
-        let st = ""
+        let q = grad + newgrad;
+        let st = "";
         image.style.top = y + "px";
         image.style.left = x + "px";
         image.style.position="absolute";
-        image.style.transform= "rotate("+grad+"deg)";
+        image.style.transform= "rotate("+q+"deg)";
         for (let i = 0; i < carrentkey.length; i ++) {
           st += (carrentkey[i])+" ";
         }
