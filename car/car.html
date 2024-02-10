@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Пример веб-страницы</title>
+    
+  </head>
+  <body  background="1674352561_gas-kvas-com-p-3d-risunok-doroga-22.jpg">
+
+    <img src="54-545722_image-result-for-png-car-top-view-lamborghini (1).png"  height ="200" id="limage" alt = "popa">
+
+
+  
+  
+    <script>
+      
+      var x = 0;
+      var y = 0;
+      var a = 1;
+      var izmgrad = 3;
+      var grad = 0;
+      var carrentkey = [0,0,0,0];
+      var speed = 10;
+      var image = document.getElementById('limage');
+      
+
+      function up() {
+        y -= Math.cos((grad*Math.PI)/180)*speed;
+        x += Math.sin((grad*Math.PI)/180)*speed;
+        
+      }
+      function down() {
+        y += Math.cos((grad*Math.PI)/180)*speed;
+        x -= Math.sin((grad*Math.PI)/180)*speed;
+        
+      }
+      function left() {
+        grad -= izmgrad;
+        
+      }
+      function right() {
+        grad += izmgrad;
+        
+      }
+      function obroboka() {
+        if (carrentkey[0] == 1) {
+          up();
+          if (carrentkey[2] == 1) {
+          left();
+          }
+          if (carrentkey[3] == 1) {
+            right();
+          }
+        }
+        if (carrentkey[1] == 1) {
+          down();
+          if (carrentkey[2] == 1) {
+          right();
+          }
+          if (carrentkey[3] == 1) {
+            left();
+          }
+        }
+        
+        polojenie();
+
+      }
+      
+      document.addEventListener('keydown', function(event){
+       if (event.key == "w") {
+          carrentkey[0] = 1; 
+      }
+       if (event.key == "s") {
+          carrentkey[1] = 1;
+      }
+       if (event.key == "a") {
+          carrentkey[2] = 1;
+      }
+       if (event.key == "d") {
+          carrentkey[3] = 1;
+      }
+      obroboka();
+
+      })
+      document.addEventListener('keyup', function(event){
+       if (event.key == "w") {
+          carrentkey[0] = 0; 
+      }
+       if (event.key == "s") {
+          carrentkey[1] = 0;
+      }
+       if (event.key == "a") {
+          carrentkey[2] = 0;
+      }
+       if (event.key == "d") {
+          carrentkey[3] = 0;
+      }
+      obroboka();
+      })
+      function polojenie() {
+        image.style.top = y + "px";
+        image.style.left = x + "px";
+        image.style.position="absolute";
+        image.style.transform= "rotate("+grad+"deg)";
+      }
+
+    </script>
+  
+
+  </body>
+</html>
