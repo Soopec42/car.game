@@ -33,6 +33,9 @@
       var speed = 0;
       var newgrad = 0;
       var dopgrad = 0;
+      var time_drift = 0;
+      var perx = 0;
+      var pery = 0;
       const pageWidth = document.documentElement.scrollWidth
       const pageHeight = document.documentElement.scrollHeight
       var image = document.getElementById('limage');
@@ -73,7 +76,7 @@
       }
       function drift() {
         
-        dopgrad += 0.1;
+        dopgrad += 1.5;
           
           if (carrentkey[2] == 1 && carrentkey[3] == 0) {
             newgrad -= Math.log((Math.abs(dopgrad)+1.1)/5);
@@ -88,17 +91,21 @@
             newgrad = -55;
           }
           if (carrentkey[2] == 1 && newgrad > 0) {
-            newgrad += Math.log((Math.abs(dopgrad)+1.1)/37);
+            newgrad += Math.log((Math.abs(dopgrad)+1.1)/25);
           }
           if (carrentkey[3] == 1 && newgrad < 0) {
-            newgrad -= Math.log((Math.abs(dopgrad)+1.1)/37);
+            newgrad -= Math.log((Math.abs(dopgrad)+1.1)/25);
+          }
+          if (carrentkey[4] == 0 )
+            dopgrad /= 1.05;
+            time_drift += 1;
+          if (time_drift == 200){
+            grad_plus = 0;
+            
           }
 
       }
-      function perehodcarti() {
-
-
-      }
+      
 
       function obroboka() {
         if (speed>0 && speed < 10) {
@@ -131,10 +138,10 @@
             right();
         }
         if (newgrad > 0) {
-            newgrad -= Math.log((Math.abs(dopgrad)+1)/10);
+            newgrad -= Math.log((Math.abs(dopgrad)+1)/15);
         }
         if (newgrad < 0) {
-            newgrad += Math.log((Math.abs(dopgrad)+1)/10);
+            newgrad += Math.log((Math.abs(dopgrad)+1)/15);
         }
         if (speed != 0 && carrentkey[0] == 0 && carrentkey[1] == 0) {
           if (speed > 0) {
@@ -198,7 +205,9 @@
       function polojenie() {
         let q = grad + newgrad;
         let st = "";
+        perx = Math.round(x / 1050); 
         
+
         carta1.style.top = y - 1050 + "px";
         carta1.style.left = x - 1050 + "px";
         carta2.style.top = y - 1050 + "px";
