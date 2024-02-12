@@ -6,8 +6,18 @@
     
   </head>
   <body>
-    <img src="Capture.PNG">
+    <img src="Capture.PNG" id="carta1">
+    <img src="Capture.PNG" id="carta2">
+    <img src="Capture.PNG" id="carta3">
+    <img src="Capture.PNG" id="carta4">
+    <img src="Capture.PNG" id="carta6">
+    <img src="Capture.PNG" id="carta7">
+    <img src="Capture.PNG" id="carta8">
+    <img src="Capture.PNG" id="carta9">
+
+    <img src="Capture.PNG" id="carta5">
     <img src="54-545722_image-result-for-png-car-top-view-lamborghini (1).png"  height ="100" id="limage" alt = "popa">
+
 
 
   
@@ -23,35 +33,47 @@
       var speed = 0;
       var newgrad = 0;
       var dopgrad = 0;
+      const pageWidth = document.documentElement.scrollWidth
+      const pageHeight = document.documentElement.scrollHeight
       var image = document.getElementById('limage');
-      var carta = 
+      var carta5 = document.getElementById('carta5');
+      var carta1 = document.getElementById('carta1');
+      var carta2 = document.getElementById('carta2');
+      var carta3 = document.getElementById('carta3');
+      var carta4 = document.getElementById('carta4');
+      var carta6 = document.getElementById('carta6');
+      var carta7 = document.getElementById('carta7');
+      var carta8 = document.getElementById('carta8');
+      var carta9 = document.getElementById('carta9');
+      image.style.top = "50%";
+      image.style.left = "50%";
       
 
       function up() {
-        y -= Math.cos((grad*Math.PI)/180)*speed;
-        x += Math.sin((grad*Math.PI)/180)*speed;
+        y += Math.cos((grad*Math.PI)/180)*speed/2.5;
+        x -= Math.sin((grad*Math.PI)/180)*speed/2.5;
         
       }
       
       function left() {
         if (speed > 0){
-          grad -= (izmgrad*Math.log(Math.abs(speed)+1))/2;
+          grad -= (izmgrad*Math.log(Math.abs(speed)+1))/5;
         }
         if (speed < 0) {
-          grad += (izmgrad*Math.log(Math.abs(speed)+1))/2;
+          grad += (izmgrad*Math.log(Math.abs(speed)+1))/5;
         }
       }
       function right() {
         if (speed > 0) {
-          grad += (izmgrad*Math.log(Math.abs(speed)+1))/2;
+          grad += (izmgrad*Math.log(Math.abs(speed)+1))/5;
         }
         if (speed < 0) {
-          grad -= (izmgrad*Math.log(Math.abs(speed)+1))/2;
+          grad -= (izmgrad*Math.log(Math.abs(speed)+1))/5;
         }
       }
       function drift() {
         
-        dopgrad += 1.5;
+        dopgrad += 0.1;
           
           if (carrentkey[2] == 1 && carrentkey[3] == 0) {
             newgrad -= Math.log((Math.abs(dopgrad)+1.1)/5);
@@ -59,18 +81,23 @@
           if (carrentkey[2] == 0 && carrentkey[3] == 1) {
             newgrad += Math.log((Math.abs(dopgrad)+1.1)/5);
           }
-          if (newgrad > 70) {
-            newgrad = 70;
+          if (newgrad > 55) {
+            newgrad = 55;
           }
-          if (newgrad < -70) {
-            newgrad = -70;
+          if (newgrad < -55) {
+            newgrad = -55;
           }
           if (carrentkey[2] == 1 && newgrad > 0) {
-            newgrad += Math.log((Math.abs(dopgrad)+1.1)/15);
+            newgrad += Math.log((Math.abs(dopgrad)+1.1)/37);
           }
           if (carrentkey[3] == 1 && newgrad < 0) {
-            newgrad -= Math.log((Math.abs(dopgrad)+1.1)/15);
+            newgrad -= Math.log((Math.abs(dopgrad)+1.1)/37);
           }
+          
+      }
+      function perehodcarti() {
+
+
       }
 
       function obroboka() {
@@ -111,16 +138,16 @@
         }
         if (speed != 0 && carrentkey[0] == 0 && carrentkey[1] == 0) {
           if (speed > 0) {
-            speed -= 0.2;
+            speed -= 0.1;
           }
           if (speed < 0) {
-            speed += 0.2;
+            speed += 0.1;
           }
         }
         if (-0.1 <= speed && speed <= 0.1 && carrentkey[0] == 0 && carrentkey[1] == 0) {
           speed = 0;
         }
-        speed /= 1.004;
+        speed /= 1.005;
           up();
         if (carrentkey[4] == 1) {
           drift();
@@ -128,7 +155,7 @@
           polojenie();
 
       }
-      setInterval(obroboka, 25);
+      setInterval(obroboka, 10);
       window.onkeydown = function(e) {
         return !(e.keyCode == 32 && (e.target.type != 'text' && e.target.type != 'textarea'));
       };
@@ -171,9 +198,35 @@
       function polojenie() {
         let q = grad + newgrad;
         let st = "";
-        image.style.top = y + "px";
-        image.style.left = x + "px";
+        
+        carta1.style.top = y - 1050 + "px";
+        carta1.style.left = x - 1050 + "px";
+        carta2.style.top = y - 1050 + "px";
+        carta2.style.left = x + "px";
+        carta3.style.top = y - 1050 + "px";
+        carta3.style.left = x + 1050 + "px";
+        carta4.style.top = y + "px";
+        carta4.style.left = x - 1050 + "px";
+        carta5.style.top = y + "px";
+        carta5.style.left = x + "px";
+        carta6.style.top = y + "px";
+        carta6.style.left = x + 1050 + "px";
+        carta7.style.top = y + 1050 + "px";
+        carta7.style.left = x - 1050 + "px";
+        carta8.style.top = y + 1050 + "px";
+        carta8.style.left = x + "px";
+        carta9.style.top = y + 1050 + "px";
+        carta9.style.left = x + 1050 + "px";
         image.style.position="absolute";
+        carta5.style.position="absolute";
+        carta1.style.position="absolute";
+        carta2.style.position="absolute";
+        carta3.style.position="absolute";
+        carta4.style.position="absolute";
+        carta6.style.position="absolute";
+        carta7.style.position="absolute";
+        carta8.style.position="absolute";
+        carta9.style.position="absolute";
         image.style.transform= "rotate("+q+"deg)";
         for (let i = 0; i < carrentkey.length; i ++) {
           st += (carrentkey[i])+" ";
