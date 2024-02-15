@@ -5,9 +5,19 @@
     <title>Пример веб-страницы</title>
     
   </head>
-  <body  background="1674352561_gas-kvas-com-p-3d-risunok-doroga-22.jpg">
+  <body>
+    <img src="Capture.PNG" id="carta1">
+    <img src="Capture.PNG" id="carta2">
+    <img src="Capture.PNG" id="carta3">
+    <img src="Capture.PNG" id="carta4">
+    <img src="Capture.PNG" id="carta5">
+    <img src="Capture.PNG" id="carta6">
+    <img src="Capture.PNG" id="carta7">
+    <img src="Capture.PNG" id="carta8">
+    <img src="Capture.PNG" id="carta9">
 
-    <img src="54-545722_image-result-for-png-car-top-view-lamborghini (1).png"  height ="200" id="limage" alt = "popa">
+    <img src="54-545722_image-result-for-png-car-top-view-lamborghini (1).png"  height ="100" id="limage" alt = "popa">
+
 
 
   
@@ -19,25 +29,128 @@
       var a = 0.1;
       var izmgrad = 3;
       var grad = 0;
-      var carrentkey = [0,0,0,0];
+      var carrentkey = [0,0,0,0,0];
       var speed = 0;
-      var image = document.getElementById('limage');
+      var newgrad = 0;
+      var dopgrad = 0;
+      var min = 10000000;
+      var mak = [0, 0, 0];
+      var starmassiv = [];
+      var gad;
       
+      var pageWidth = document.documentElement.scrollWidth
+      var pageHeight = document.documentElement.scrollHeight
+      var image = document.getElementById('limage');
+      var carta5 = document.getElementById('carta5');
+      var carta1 = document.getElementById('carta1');
+      var carta2 = document.getElementById('carta2');
+      var carta3 = document.getElementById('carta3');
+      var carta4 = document.getElementById('carta4');
+      var carta6 = document.getElementById('carta6');
+      var carta7 = document.getElementById('carta7');
+      var carta8 = document.getElementById('carta8');
+      var carta9 = document.getElementById('carta9');
+      image.style.top = "50%";
+      image.style.left = "50%";
+      var massiv = [
+          [p1x, p1y],[p2x, p2y],[p3x, p3y],
+          [p4x, p4y],[p5x, p5y],[p6x, p6y],
+          [p7x, p7y],[p8x, p8y],[p9x, p9y]
+        ];
+      dop_x_massiv = [pp1x, pp2x, pp3x, pp4x, pp5x, pp6x, pp7x, pp8x, pp9x]
+      var p1x = -1050 + x;
+      var p1y = -1050 + y;
+      var p2x = x;
+      var p2y = -1050 + y;
+      var p3x = 1050 + x;
+      var p3y = -1050 + y;
+      var p4x = -1050 + x;
+      var p4y = y;
+      var p5x = x;
+      var p5y = y;
+      var p6x = 1050 + x;
+      var p6y = y;
+      var p7x = -1050 + x;
+      var p7y = 1050 + y;
+      var p8x = x;
+      var p8y = 1050 + y;
+      var p9x = 1050 + x;
+      var p9y = 1050 + y;
 
+      var pp1x = 0;
+      var pp1y = 0;
+      var pp2x = 0;
+      var pp2y = 0;
+      var pp3x = 0;
+      var pp3y = 0;
+      var pp4x = 0;
+      var pp4y = 0;
+      var pp5x = 0;
+      var pp5y = 0;
+      var pp6x = 0;
+      var pp6y = 0;
+      var pp7x = 0;
+      var pp7y = 0;
+      var pp8x = 0;
+      var pp8y = 0;
+      var pp9x = 0;
+      var pp9y = 0;
+
+      
+      
       function up() {
-        y -= Math.cos((grad*Math.PI)/180)*speed;
-        x += Math.sin((grad*Math.PI)/180)*speed;
+        y += Math.cos((grad*Math.PI)/180)*speed/2.5;
+        x -= Math.sin((grad*Math.PI)/180)*speed/2.5;
         
       }
       
       function left() {
-        grad -= (izmgrad*Math.log(Math.abs(speed)+1))/2;
-        
+        if (speed > 0){
+          grad -= (izmgrad*Math.log(Math.abs(speed)+1))/5;
+        }
+        if (speed < 0) {
+          grad += (izmgrad*Math.log(Math.abs(speed)+1))/5;
+        }
       }
       function right() {
-        grad += (izmgrad*Math.log(Math.abs(speed)+1))/2;
-        
+        if (speed > 0) {
+          grad += (izmgrad*Math.log(Math.abs(speed)+1))/5;
+        }
+        if (speed < 0) {
+          grad -= (izmgrad*Math.log(Math.abs(speed)+1))/5;
+        }
       }
+      function drift() {
+        
+        dopgrad += 1.5;
+          
+          if (carrentkey[2] == 1 && carrentkey[3] == 0) {
+            newgrad -= Math.log((Math.abs(dopgrad)+1.1)/5);
+          }
+          if (carrentkey[2] == 0 && carrentkey[3] == 1) {
+            newgrad += Math.log((Math.abs(dopgrad)+1.1)/5);
+           }
+          if (newgrad > 55) {
+            newgrad = 55;
+          }
+          if (newgrad < -55) {
+            newgrad = -55;
+          }
+          if (carrentkey[2] == 1 && newgrad > 0) {
+            newgrad += Math.log((Math.abs(dopgrad)+1.1)/25);
+          }
+          if (carrentkey[3] == 1 && newgrad < 0) {
+            newgrad -= Math.log((Math.abs(dopgrad)+1.1)/25);
+          }
+          if (carrentkey[4] == 0 ){
+            dopgrad /= 1.05;
+          }
+            
+
+      }
+      
+      
+
       function obroboka() {
         if (speed>0 && speed < 10) {
           speed -= 0.025;
@@ -68,22 +181,36 @@
         if (carrentkey[3] == 1 && (speed <= -0.6 || speed >=0.6)) {
             right();
         }
+        if (newgrad > 0) {
+            newgrad -= Math.log((Math.abs(dopgrad)+1)/15);
+        }
+        if (newgrad < 0) {
+            newgrad += Math.log((Math.abs(dopgrad)+1)/15);
+        }
         if (speed != 0 && carrentkey[0] == 0 && carrentkey[1] == 0) {
           if (speed > 0) {
-            speed -= 0.2;
+            speed -= 0.1;
           }
           if (speed < 0) {
-            speed += 0.2;
+            speed += 0.1;
           }
         }
         if (-0.1 <= speed && speed <= 0.1 && carrentkey[0] == 0 && carrentkey[1] == 0) {
           speed = 0;
         }
+        speed /= 1.005;
           up();
-          polojenie();
+        if (carrentkey[4] == 1) {
+          drift();
+        }
 
+          polojenie();
+          
       }
-      setInterval(obroboka, 25);
+      setInterval(obroboka, 10);
+      window.onkeydown = function(e) {
+        return !(e.keyCode == 32 && (e.target.type != 'text' && e.target.type != 'textarea'));
+      };
       document.addEventListener('keydown', function(event){
        if (event.key == "w") {
           carrentkey[0] = 1; 
@@ -97,7 +224,9 @@
        if (event.key == "d") {
           carrentkey[3] = 1;
       }
-      
+       if (event.keyCode == 32) {
+          carrentkey[4] = 1;
+      }
 
       })
       document.addEventListener('keyup', function(event){
@@ -113,18 +242,86 @@
        if (event.key == "d") {
           carrentkey[3] = 0;
       }
+       if (event.keyCode == 32) {
+          carrentkey[4] = 0;
+      }
       
       })
       function polojenie() {
-        let st = ""
-        image.style.top = y + "px";
-        image.style.left = x + "px";
+        
+         let q = grad + newgrad;
+        let st = "";
+        massiv = [
+          [-1050 + x, -1050 + y],[x, -1050 + y],[1050 + x, -1050+ y],
+          [-1050 + x, y],[x, y],[1050 + x, y],
+          [-1050 + x, 1050 + y],[x, 1050 + y],[1050 + x, 1050 + y]
+          ]
+          
+         plus_massiv = starmassiv;
+        if ((x < (pageWidth/2)) && ((pageWidth/2) < (x + 1050)) && ((y < (pageHeight/2)) && ((pageHeight/2) < (y + 1050)))) {
+          for (var m = 0; m < 9; m ++) {
+            gad = massiv[m][0];
+            if (min > gad) {
+              min = gad;
+            }
+          }
+          for (var b = 0; b < 9; b++) {
+            if (massiv[b][0] == min) {
+              
+              dop_x_massiv[b] += 3150;
+              
+            }
+          }
+          
+          
+          starmassiv = dop_x_massiv;
+        }
+        
+        var finx1 = -1050 + x + dop_x_massiv[1];
+        var finx2 = x + dop_x_massiv[2];
+        var finx3 = 1050 + x + dop_x_massiv[3];
+        var finx4 = -1050 + x + dop_x_massiv[4];
+        var finx5 = x + dop_x_massiv[5];
+        var finx6 = 1050 + x + dop_x_massiv[6];
+        var finx7 = -1050 + x + dop_x_massiv[7];
+        var finx8 = x + dop_x_massiv[8];
+        var finx9 = 1050 + x + dop_x_massiv[9];
+        
+        carta1.style.top = massiv[0][1] + "px";
+        carta1.style.left = finx1 + "px";
+        carta2.style.top = massiv[1][1] + "px";
+        carta2.style.left = finx2 + "px";
+        carta3.style.top = massiv[2][1] + "px";
+        carta3.style.left = finx3 + "px";
+        carta4.style.top = massiv[3][1] + "px";
+        carta4.style.left = finx4 + "px";
+        carta5.style.top = massiv[4][1] + "px";
+        carta5.style.left = finx5 + "px";
+        carta6.style.top = massiv[5][1] + "px";
+        carta6.style.left = finx6 + "px";
+        carta7.style.top = massiv[6][1] + "px";
+        carta7.style.left = finx7 + "px";
+        carta8.style.top = massiv[7][1] + "px";
+        carta8.style.left = finx8 + "px";
+        carta9.style.top = massiv[8][1] + "px";
+        carta9.style.left = finx9 + "px";
         image.style.position="absolute";
-        image.style.transform= "rotate("+grad+"deg)";
+        carta5.style.position="absolute";
+        carta1.style.position="absolute";
+        carta2.style.position="absolute";
+        carta3.style.position="absolute";
+        carta4.style.position="absolute";
+        carta6.style.position="absolute";
+        carta7.style.position="absolute";
+        carta8.style.position="absolute";
+        carta9.style.position="absolute";
+        image.style.transform= "rotate("+q+"deg)";
+        /*
         for (let i = 0; i < carrentkey.length; i ++) {
           st += (carrentkey[i])+" ";
         }
-        console.log(st);
+        console.log(st); 
+        */
       }
 
     </script>
